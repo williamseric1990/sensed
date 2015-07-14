@@ -1,0 +1,24 @@
+{
+  "name": "sensors",
+  "version": "0.0.1",
+  "description": "Demo code for sensor integration.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sli/sensors.git"
+  },
+  "author": "Cody Maden",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/sli/sensors/issues"
+  },
+  "homepage": "https://github.com/sli/sensors#readme",
+  "dependencies": {
+    "onoff": "^1.0.2",
+    "socket.io": "^1.3.5",
+    "socket.io-client": "^1.3.5"
+  }
+}
