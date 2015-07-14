@@ -23,8 +23,8 @@ def read_word_2c(adr):
     else:
         return val
 
-def write_byte(adr, value):
-    bus.write_byte_data(address, adr, value)
+def write_byte(cmd, value):
+    bus.write_byte_data(address, cmd, value)
 
 write_byte(0, 0b01110000) # Set to 8 samples @ 15Hz
 write_byte(1, 0b00100000) # 1.3 gain LSb / Gauss 1090 (default)

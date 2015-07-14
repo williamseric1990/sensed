@@ -1,23 +1,21 @@
-var i2c = require('i2c');
-var address = 0x1e;
+var i2c = require('i2c-bus');
 
-var wire = new i2c(address, {device: '/dev/i2c-1'});
+var address = 0x1e;
+var wire = new i2c.openSync(1);
 
 var scale = 0.92;
 var xOffset = -10;
 var yOffset = 10;
 
 var readWord = function(adr) {
-	wire.readByte(function(err, high) {
-		wire.readByte(function(err, low) {
-			var val = (high << 8) + low;
-			return val;
-		});
-	});
+	var high = wire.readByteSync(address, cmd);
+	var low = wire.readByteSync(address, cmd+1);
+
+	return (high << 8) + low;
 }
 
-var readSensor = function(adr) {
-	var val = readWord(adr);
+var readSensor = function(cmd) {
+	var val = readWord(cmd);
 	if (val >= 0x8000) {
 		return -((65535 - val) + 1);
 	} else {
@@ -25,14 +23,10 @@ var readSensor = function(adr) {
 	}
 }
 
-var writeByte = function(adr) {
-	return; // TODO
-}
-
 var get = function() {
-	wire.writeByte(0, 0b01110000);
-	wire.writeByte(1, 0b00100000);
-	wire.writeByte(2, 0b00000000);
+	wire.writeByteSync(address, 0, 0b01110000);
+	wire.writeByteSync(address, 1, 0b00100000);
+	wire.writeByteSync(address, 2, 0b00000000);
 
 	var xOut = (readWord(3) - xOffset) * scale;
 	var yOut = (readWord(7) - yOffset) * scale;
