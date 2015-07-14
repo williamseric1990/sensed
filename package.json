@@ -1,21 +1,21 @@
 {
-  "name": "sensors",
+  "name": "sensed",
   "version": "0.0.1",
-  "description": "Demo code for sensor integration.",
+  "description": "Sensor daemon",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sli/sensors.git"
+    "url": "git+https://github.com/sli/sensed.git"
   },
   "author": "Cody Maden",
   "license": "GPL-2.0",
   "bugs": {
-    "url": "https://github.com/sli/sensors/issues"
+    "url": "https://github.com/sli/sensed/issues"
   },
-  "homepage": "https://github.com/sli/sensors#readme",
+  "homepage": "https://github.com/sli/sensed#readme",
   "dependencies": {
     "onoff": "^1.0.2",
     "socket.io": "^1.3.5",
