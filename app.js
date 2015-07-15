@@ -4,7 +4,7 @@ var ioClient = require('socket.io-client');
 
 var readers = {};
 
-var socket = ioClient.connect('http://127.0.0.1:3000/');
+var socket = ioClient.connect('http://192.168.1.101:3000/');
 
 /* Load sensor reading modules */
 for (s in config.sensors) {
