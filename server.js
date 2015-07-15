@@ -16,7 +16,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('sensor-data', function(data) {
-        console.log(JSON.stingify(data, null, 2))
+        console.log(data);
     });
 
 });
