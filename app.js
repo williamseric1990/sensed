@@ -40,6 +40,7 @@ socket.on('sensors', function() {
         var s = readers[r];
         ret[s.type] = s.get();
     }
+    console.log('Sending sensor data to client ' + socket.id);
     socket.emit('sensor-data', ret);
 });
 

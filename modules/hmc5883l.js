@@ -25,9 +25,13 @@ var readSensor = function(cmd) {
 }
 
 var get = function() {
-	wire.writeByteSync(address, 0, 0b01110000);
-	wire.writeByteSync(address, 1, 0b00100000);
-	wire.writeByteSync(address, 2, 0b00000000);
+	try {
+		wire.writeByteSync(address, 0, 0b01110000);
+		wire.writeByteSync(address, 1, 0b00100000);
+		wire.writeByteSync(address, 2, 0b00000000);
+        } catch (e) {
+		return null;
+        }
 
 	var xOut = (readWord(3) - xOffset) * scale;
 	var yOut = (readWord(7) - yOffset) * scale;
