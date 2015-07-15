@@ -9,9 +9,14 @@ io.on('connection', function(socket) {
     socket.on('feedback', function(value) {
         if (value) {
             console.log('<- pressed');
+            socket.emit('sensors');
         } else {
             console.log('<- released');
         }
+    });
+
+    socket.on('sensor-data', function(data) {
+        console.log(JSON.stingify(data, null, 2))
     });
 
 });

@@ -34,4 +34,13 @@ button.watch(function(err, value) {
     socket.emit('feedback', value);
 });
 
+socket.on('sensors', function() {
+    var ret = {};
+    for (r in readers) {
+        var s = readers[r];
+        ret[s.type] = s.get();
+    }
+    socket.emit('sensor-data', ret);
+});
+
 process.on('SIGINT', exit);

@@ -1,6 +1,7 @@
 var i2c = require('i2c-bus');
 
 var address = 0x1e;
+var type = 'compass';
 var wire = new i2c.openSync(1);
 
 var scale = 0.92;
@@ -40,4 +41,4 @@ var get = function() {
 	return bearing * (180 / Math.PI);
 }
 
-module.exports = { get: get, address: address };
+module.exports = { get: get, address: address, type: type };
