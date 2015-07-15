@@ -8,7 +8,7 @@ var scale = 0.92;
 var xOffset = -10;
 var yOffset = 10;
 
-var readWord = function(adr) {
+var readWord = function(cmd) {
 	var high = wire.readByteSync(address, cmd);
 	var low = wire.readByteSync(address, cmd+1);
 
