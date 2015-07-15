@@ -1,8 +1,8 @@
 {
   "name": "sensed",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Sensor daemon",
-  "main": "app.js",
+  "main": "sensed.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
