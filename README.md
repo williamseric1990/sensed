@@ -4,8 +4,9 @@
 
 ### Installation
 
-1. Clone the repository
-2. `$ cd sensed`
-3. `npm install`
-4. `npm install forever -g`
-5. `forever start sensed.js`
+1. `$ apt-get install nodejs git-core`
+2. `$ git clone http://github.com/sli/sensed.git`
+3. `$ cd sensed`
+4. `npm install`
+5. `npm install forever -g`
+6. `forever start sensed.js`
