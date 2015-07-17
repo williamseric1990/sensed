@@ -1,7 +1,8 @@
 {
 	"sensors": [
 		"hmc5883l-c",
-		"hmc5883l-m"
+		"hmc5883l-m",
+		"ultimategpsv3"
 	],
 	"server": true,
 	"client": true,
