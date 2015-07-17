@@ -1,7 +1,7 @@
 {
 	"sensors": [
-		"hmc5883l",
-		"htu21d"
+		"hmc5883l-c",
+		"hmc5883l-m"
 	],
 	"server": true,
 	"client": true,
