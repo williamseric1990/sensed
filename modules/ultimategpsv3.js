@@ -1,3 +1,5 @@
+var com = require('serialport');
+
 var type = 'gps';
 
 var parseRMC = function(rmc) {
