@@ -1,4 +1,5 @@
 {
+	"name": "testnode",
 	"sensors": [
 		"hmc5883l-c",
 		"hmc5883l-m",
