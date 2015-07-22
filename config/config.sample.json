@@ -5,7 +5,7 @@
 		"hmc5883l-m",
 		"ultimategpsv3"
 	],
-	"server": true,
+	"server": false,
 	"client": true,
-	"host": "192.168.1.100:3000"
+	"host": "192.168.1.1:3000"
 }
