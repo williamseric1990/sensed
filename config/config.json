@@ -2,7 +2,7 @@
 	"sensors": [
 		"hmc5883l-c",
 		"hmc5883l-m",
-		"ultimategpsv3"
+		"mpl115a2"
 	],
 	"server": true,
 	"client": true,
