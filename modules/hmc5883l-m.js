@@ -38,5 +38,6 @@ var get = function() {
     var zOut = readWord(5) * scale;
 
     return {x: xOut, y: yOut, z: zOut};
+}
 
 module.exports = { get: get, address: address, type: type };
