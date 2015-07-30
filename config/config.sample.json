@@ -1,10 +1,16 @@
 {
 	"name": "testnode",
-	"sensors": [
-		"hmc5883l-c",
-		"hmc5883l-m",
-		"mpl115a2"
-	],
+	"sensors": {
+		"hmc5883l-c": {
+			"enabled": true
+		},
+		"hmc5883l-m": {
+			"enabled": true
+		},
+		"mpl115a2": {
+			"enabled": true
+		}
+	},
 	"server": false,
 	"client": true,
 	"host": "192.168.1.1:3000"
