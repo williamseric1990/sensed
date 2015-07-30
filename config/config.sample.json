@@ -8,7 +8,8 @@
 			"enabled": true
 		},
 		"mpl115a2": {
-			"enabled": true
+			"enabled": true,
+			"precision": 4
 		}
 	},
 	"server": false,
