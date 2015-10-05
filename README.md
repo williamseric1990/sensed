@@ -4,9 +4,7 @@
 
 ### Installation
 
-1. `$ apt-get install nodejs git-core`
-2. `$ git clone http://github.com/sli/sensed.git`
-3. `$ cd sensed`
-4. `$ npm install`
-5. `$ npm install forever -g`
-6. `$ forever start sensed.js`
+`curl -sL https://raw.githubusercontent.com/sli/sensed/master/setup_sensed | sudo bash -`
+
+If you don't like that method, then simply clone the repository and run `install.sh`. Be aware that NodeJS is
+installed in the above manner, so you may want to install manually.
