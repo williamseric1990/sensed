@@ -1,15 +1,15 @@
-var config = require('./config/config.json');
+var config = require('./config/config.json')
 
-var DEBUG = function(message) {
-    if (config.debug == true) {
-        console.log(message);
-    }
+var DEBUG = function (message) {
+  if (config.debug == true) {
+    console.log(message)
+  }
 }
 
 if (config.client) {
-    require('./lib/client')();
+  require('./lib/client')()
 }
 
 if (config.server) {
-    require('./lib/server')();
+  require('./lib/server')()
 }
