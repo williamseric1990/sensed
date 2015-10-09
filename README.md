@@ -1,4 +1,5 @@
 # sensed
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
 `sensed` is a sensor network daemon that acts as a provider for sensor and node data.
 
