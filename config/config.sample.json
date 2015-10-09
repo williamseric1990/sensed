@@ -1,21 +1,21 @@
 {
-	"debug": true,
-	"name": "testnode",
-	"sensors": {
-		"hmc5883l-c": {
-			"enabled": true
-		},
-		"hmc5883l-m": {
-			"enabled": true
-		},
-		"mpl115a2": {
-			"enabled": true,
-			"precision": 4
-		}
-	},
-	"server": false,
-	"client": true,
-	"hosts": [
-		"192.168.1.1:3000"
-	]
+  "debug": true,
+  "name": "testnode",
+  "sensors": {
+    "hmc5883l-c": {
+      "enabled": true
+    },
+    "hmc5883l-m": {
+      "enabled": true
+    },
+    "mpl115a2": {
+      "enabled": true,
+      "precision": 4
+    }
+  },
+  "server": false,
+  "client": true,
+  "hosts": [
+    "192.168.1.1:3000"
+  ]
 }
