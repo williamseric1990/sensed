@@ -26,10 +26,13 @@ var readSensor = function (cmd) {
 
 var get = function () {
   try {
-    wire.writeByteSync(address, 0, 0b01110000)
-    wire.writeByteSync(address, 1, 0b00100000)
-    wire.writeByteSync(address, 2, 0b00000000)
-  } catch (e) {
+    // wire.writeByteSync(address, 0, 0b01110000)
+    // wire.writeByteSync(address, 1, 0b00100000)
+    // wire.writeByteSync(address, 2, 0b00000000)
+    wire.writeByteSync(address, 0, 112)
+    wire.writeByteSync(address, 1, 32)
+    wire.writeByteSync(address, 2, 0)
+ } catch (e) {
     return null
   }
 
