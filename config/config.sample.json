@@ -11,6 +11,12 @@
     "mpl115a2": {
       "enabled": true,
       "precision": 4
+    },
+    "batadvvis": {
+      "enabled": true,
+      "host": "10.0.0.1",
+      "user": "root",
+      "password": "password"
     }
   },
   "server": false,
