@@ -1,6 +1,8 @@
 var SSH = require('simple-ssh')
 var config = require('../config/config.json').batadvvis
 
+var type = 'batadv-vis'
+
 var get = function () {
   var meshMap
 
@@ -27,4 +29,4 @@ var get = function () {
   return meshMap
 }
 
-module.export = { get: get }
+module.export = { get: get, type: type }
