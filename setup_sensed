@@ -1,5 +1,0 @@
-#!/bin/bash
-apt-get install git
-git clone http://github.com/sli/sensed.git
-cd sensed
-./install.sh
