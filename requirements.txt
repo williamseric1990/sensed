@@ -1,0 +1,2 @@
+click==6.2
+pychalk==1.1.0
