@@ -59,19 +59,18 @@ def load_config(fn=None):
 @click.option('--config', '-c', default=None,
               help='Configuration file for this instance.')
 @click.option('--name', '-n', default='sensed',
-              help='Name of his lidard instance. Should be unique on the \
+              help='Name of his sensed instance. Should be unique on the \
                     network. Default: sensed')
 @click.option('--sensors', '-S', default={},
               help='Sensor modules to load and enable.')
+@click.option('--host', '-i', default='localhost',
+              help='IP or hostname of the senselog server. Default: localhost')
 @click.option('--port', '-p', default=3000,
               help='Port used by clients to recieve data. Default: 3000')
-@click.option('--bind', '-i', default='0.0.0.0',
-              help='Binding interface for the socket server. Default: 0.0.0.0')
 @click.option('--verbose', '-V', is_flag=True,
               help='Enable verbose output (debugging)')
 def sensed(config, name, sensors, port, bind, verbose):
     if config is None:
-        _debug(verbose, chalk.green, 'no config found, using defaults')
         nsensors = {}
         for s in sensors:
             nsensors[s]['enabled'] = True
@@ -97,8 +96,6 @@ def sensed(config, name, sensors, port, bind, verbose):
             cfg['name'] = 'sensed'
 
         _debug(verbose, chalk.green, 'done loading')
-
-    # TODO: instantiate enabled sensor modules here
 
     _debug(verbose, chalk.blue, 'connecting to server')
     client = SenselogClient(cfg)
