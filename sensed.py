@@ -1,7 +1,8 @@
 import os
 import json
-import click
+import time
 import chalk
+import click
 import atexit
 import platform
 import socketserver
@@ -16,7 +17,10 @@ class SensedServer(socketserver.BaseRequestHandler):
         if header == '\x01\x00':
             self._Debug(chalk.cyan, 'recieved id request')
             # collect list of sensors, etc.
-            # socket.sendto(bytes(p + '\n', 'utf-8'), self.client_address)
+            sensors = ','.join(self.server.config['sensors'].keys())
+            name = self.server.config['name']
+            p = name + '|' + sensors
+            socket.sendto(bytes(p + '\n', 'utf-8'), self.client_address)
             self._Debug(chalk.magenta, 'sent id data')
         elif header == '\x02\x00':
             if len(body) > 0:
@@ -27,7 +31,8 @@ class SensedServer(socketserver.BaseRequestHandler):
                 self._Debug(chalk.blue, 'recieved request for sensor data')
             
             # get data for specified sensors
-            self._Debug(chalk.red, 'scan data: ' + repr(r))
+            self._Debug(chalk.red, 'sensor data: ' + repr(r))
+            # r = self.to_packet(data) + '|' + int(time.time())
             # socket.sendto(bytes(r + '\n', 'utf-8'), self.client_address)
             self._Debug(chalk.yellow, 'sent sensor data')
 
