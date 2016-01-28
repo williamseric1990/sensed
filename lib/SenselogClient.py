@@ -1,5 +1,6 @@
 import time
 import socket
+import importlib
 
 
 class SenselogClient(object):
@@ -12,7 +13,8 @@ class SenselogClient(object):
         # Load all sensor modules that are enabled
         for sensor in config['sensors']:
             if config['sensors']['sensor']['enabled']:
-                self.sensors[sensor] = importlib.import_module('modules.{}'.format(sensor))
+                smod = importlib.import_module('modules.{}'.format(sensor))
+                self.sensors[sensor] = smod.Sensor()
 
     def get_sensor(self, sensor):
         if sensor in self.sensors:
