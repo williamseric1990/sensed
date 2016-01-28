@@ -5,7 +5,7 @@ import click
 import atexit
 import platform
 
-from .lib import SenselogClient
+from lib import SenselogClient
 
 
 def _debug(verbose, f, arg):
