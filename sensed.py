@@ -83,21 +83,30 @@ def sensed(config, name, sensors, port, bind, verbose):
             'sensors': nsensors
         }
     else:
-        _debug(verbose, chalk.green, 'loading config... ')
         cfg = load_config(fn=config)
 
+        if config['debug']:
+            verbose = True
+
+        _debug(verbose, chalk.green, 'loaded config')
+
         if 'sensors' not in cfg:
+            _debug(verbose, chalk.yellow, 'no sensors configured, disabling')
             cfg['sensors'] = {}
-        if 'bind' not in cfg:
-            cfg['bind'] = '0.0.0.0'
+        if 'host' not in cfg:
+            _debug(verbose, chalk.yellow,
+                   'no host configured, defaulting to localhost')
+            cfg['host'] = 'localhost'
         if 'port' not in cfg:
-            cfg['port'] = port
+            _debug(verbose, chalk.yellow,
+                   'no port configured, defaulting to 3000')
+            cfg['port'] = 3000
         if 'name' not in cfg:
+            _debug(verbose, chalk.yellow,
+                   'no name configured, defaulting to sensed')
             cfg['name'] = 'sensed'
 
-        _debug(verbose, chalk.green, 'done loading')
-
-    _debug(verbose, chalk.blue, 'connecting to server')
+    _debug(verbose, chalk.blue, 'connecting to senselog server')
     client = SenselogClient(cfg)
 
     @atexit.register
