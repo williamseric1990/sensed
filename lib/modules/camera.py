@@ -2,7 +2,7 @@ import os
 import picamera
 
 
-class Sensor(object):
+class Camera(object):
     ''' `sensed` sensor module for the Raspberry Pi NoIR camera. This
         module returns a JPEG image. '''
 
@@ -12,5 +12,8 @@ class Sensor(object):
     def get_data(self):
         self.camera.capture('img.jpg')
         with open('img.jpg', 'rb') as fp:
-            return fp.read()
+            return {'camera': fp.read()}
         os.remove('img.jpg')
+
+
+Sensor = Camera
