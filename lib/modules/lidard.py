@@ -27,7 +27,7 @@ class Lidard(object):
         r = self.sock.recv(1024).decode('utf-8').rstrip()
         r, timestamp = self.data_processor(r)
         return {'scan': r,
-                'lidard_timestamp': timestamp,
+                'lidard_ts': timestamp,
                 'meta': self.meta}
 
     def _process_metadata(self, data):
