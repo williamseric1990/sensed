@@ -1,55 +1,17 @@
 import os
 import json
-import time
 import chalk
 import click
 import atexit
 import platform
-import socketserver
 
-
-class SensedServer(socketserver.BaseRequestHandler):
-    def handle(self):
-        data = self.request[0].strip().decode('utf-8')
-        header = data[:2]
-        body = data[2:]
-        socket = self.request[1]
-        if header == '\x01\x00':
-            self._debug(chalk.cyan, 'recieved id request')
-            # collect list of sensors, etc.
-            sensors = ','.join(self.server.config['sensors'].keys())
-            name = self.server.config['name']
-            p = name + '|' + sensors
-            socket.sendto(bytes(p + '\n', 'utf-8'), self.client_address)
-            self._debug(chalk.magenta, 'sent id data')
-        elif header == '\x02\x00':
-            if len(body) > 0:
-                body = body.split(',')
-                self._debug(chalk.blue,
-                            'recieved request for: {}'.format(repr(body)))
-            else:
-                self._debug(chalk.blue, 'recieved request for sensor data')
-            
-            # get data for specified sensors
-            self._debug(chalk.red, 'sensor data: ' + repr(r))
-            # r = self.to_packet(data) + '|' + int(time.time())
-            # socket.sendto(bytes(r + '\n', 'utf-8'), self.client_address)
-            self._debug(chalk.yellow, 'sent sensor data')
-
-    def to_packet(self, seq):
-        ret = []
-        for k in seq:
-            ret.append(k + ',' + seq[k])
-        return ';'.join(ret) + '\n'
-
-    def _debug(self, f, arg):
-        if self.server.config['verbose']:
-            f(arg)
+from .lib import SenselogClient
 
 
 def _debug(verbose, f, arg):
     if verbose:
         f(arg)
+
 
 # Finds a config file in a number of default locations in a
 # Linux/Unix environment. Checks in the following places:
@@ -138,18 +100,15 @@ def sensed(config, name, sensors, port, bind, verbose):
 
     # TODO: instantiate enabled sensor modules here
 
-    _debug(verbose, chalk.blue, 'starting server')
-    server = socketserver.UDPServer((cfg['bind'], cfg['port']), SensedServer)
-    server.config = cfg
+    _debug(verbose, chalk.blue, 'connecting to server')
+    client = SenselogClient(cfg)
 
     @atexit.register
     def close():
         chalk.blue('shutting down')
-        server.server_close()
+        client.shutdown()
 
     chalk.blue('sensed ready')
-    server.serve_forever()
-
 
 if __name__ == '__main__':
     sensed()
