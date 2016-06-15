@@ -34,6 +34,8 @@ First, see the `--help` output:
 
 Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/python/config/config.sample.json). As you'll no doubt notice, a configuration file is not required.
 
+If you're looking for a reference server implementation (there is no "standard" server for `sensed` &emdash; that would all but defeat part the purpose of using `sensed`), you might look into [senselog](https://github.com/sli/sensed).
+
 ### Testing mode?
 
 Testing mode simply tells `sensed` to send preconfigured test data from the sensor modules rather than query real sensors. Perhaps surprisingly, this allows you to test your sensor network infrastructure before deployment.
