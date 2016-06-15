@@ -2,7 +2,7 @@
 
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 
-`sensed` is a sensor network daemon that acts as a provider for sensor and node data.
+`sensed` is a sensor network daemon that acts as a provider for sensor and node data. Uses a simple protocol based around [MessagePack](http://msgpack.org/).
 
 
 ### How do I install this thing?
