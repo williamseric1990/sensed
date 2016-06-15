@@ -18,7 +18,10 @@ class SenselogClient(object):
 
     def get_sensor(self, sensor):
         if sensor in self.sensors:
-            data = self.sensors[sensor].get_data()
+            if config['test']:
+                data = self.sensors[sensor].test()
+            else:
+                data = self.sensors[sensor].get_data()
             data['sensed_ts'] = int(time.time())
             return data
         else:
@@ -27,7 +30,10 @@ class SenselogClient(object):
     def get_sensors(self):
         ret = {}
         for sensor in self.sensors:
-            data = self.sensors[sensor].get_data()
+            if config['test']:
+                data = self.sensors[sensor].test()
+            else:
+                data = self.sensors[sensor].get_data()
             ret[sensor] = data
         ret['sensed_ts'] = int(time.time())
         return ret

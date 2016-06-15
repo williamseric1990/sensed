@@ -53,5 +53,10 @@ class Lidard(object):
             ret.append(p)
         return tuple(p), timestamp
 
+    def test(self):
+        return {'scan': ((1,2),(3,4)),
+                'lidard_ts': time.time(),
+                'meta': 'testmetadata'}
+
 
 Sensor = Lidard

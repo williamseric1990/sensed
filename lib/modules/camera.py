@@ -15,5 +15,8 @@ class Camera(object):
             return {'camera': fp.read()}
         os.remove('img.jpg')
 
+    def test(self):
+        return {'camera': 'testdata'}
+
 
 Sensor = Camera

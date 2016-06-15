@@ -59,8 +59,7 @@ def load_config(fn=None):
 @click.option('--config', '-c', default=None,
               help='Configuration file for this instance.')
 @click.option('--name', '-n', default='sensed',
-              help='Name of his sensed instance. Should be unique on the \
-                    network. Default: sensed')
+              help='Name of this instance. Should be unique on the network.')
 @click.option('--sensors', '-S', default={},
               help='Sensor modules to load and enable.')
 @click.option('--host', '-i', default='localhost',
@@ -69,6 +68,8 @@ def load_config(fn=None):
               help='Port used by clients to recieve data. Default: 3000')
 @click.option('--verbose', '-V', is_flag=True,
               help='Enable verbose output (debugging)')
+@click.option('--test', '-t', is_flag=True,
+              help='Enable testing mode')
 def sensed(config, name, sensors, port, bind, verbose):
     if config is None:
         nsensors = {}
@@ -80,12 +81,13 @@ def sensed(config, name, sensors, port, bind, verbose):
             'debug': verbose,
             'bind': bind,
             'port': port,
-            'sensors': nsensors
+            'sensors': nsensors,
+            'test': test
         }
     else:
         cfg = load_config(fn=config)
 
-        if config['debug']:
+        if 'debug' in config and config['debug']:
             verbose = True
 
         _debug(verbose, chalk.green, 'loaded config')
@@ -105,6 +107,9 @@ def sensed(config, name, sensors, port, bind, verbose):
             _debug(verbose, chalk.yellow,
                    'no name configured, defaulting to sensed')
             cfg['name'] = 'sensed'
+
+        if 'test' not in cfg:
+            test = False
 
     _debug(verbose, chalk.blue, 'connecting to senselog server')
     client = SenselogClient(cfg)
