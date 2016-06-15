@@ -18,18 +18,22 @@
 
 First, see the `--help` output:
 
-    rcm@ubuntustation1 ~/P/lidard> python3 sensed.py --help
+    rcm@vtclab-ThinkCentre-M93p ~/P/sensed> python3 sensed.py --help
     Usage: sensed.py [OPTIONS]
 
     Options:
       -c, --config TEXT   Configuration file for this instance.
-      -n, --name TEXT     Name of his sensed instance. Should be unique on the
-                          network. Default: sensed
+      -n, --name TEXT     Name of this instance. Should be unique on the network.
       -S, --sensors TEXT  Sensor modules to load and enable.
       -i, --host TEXT     IP or hostname of the senselog server. Default:
                           localhost
       -p, --port INTEGER  Port used by clients to recieve data. Default: 3000
       -V, --verbose       Enable verbose output (debugging)
+      -t, --test          Enable testing mode
       --help              Show this message and exit.
 
 Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/python/config/config.sample.json). As you'll no doubt notice, a configuration file is not required.
+
+### Testing mode?
+
+Testing mode simply tells `sensed` to send preconfigured test data from the sensor modules rather than query real sensors. Perhaps surprisingly, this allows you to test your sensor network infrastructure before deployment.
