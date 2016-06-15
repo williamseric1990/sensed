@@ -37,3 +37,7 @@ Next, you'll probably want to take a look at the [example config file](https://g
 ### Testing mode?
 
 Testing mode simply tells `sensed` to send preconfigured test data from the sensor modules rather than query real sensors. Perhaps surprisingly, this allows you to test your sensor network infrastructure before deployment.
+
+### License
+
+Distributed under the MIT License (MIT). See `LICENSE` for details.
