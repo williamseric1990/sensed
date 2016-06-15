@@ -47,5 +47,8 @@ class SenselogClient(object):
         data = self.sock.recv(1024).decode('utf-8').rstrip()
         return {'header': data[:2], 'body': data[2:]}
 
+    def run_forever(self):
+        pass  # for now
+
     def shutdown(self):
         self.sock.close()

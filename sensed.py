@@ -5,7 +5,7 @@ import click
 import atexit
 import platform
 
-from lib import SenselogClient
+from lib.SenselogClient import SenselogClient
 
 
 def _debug(verbose, f, arg):
@@ -70,7 +70,7 @@ def load_config(fn=None):
               help='Enable verbose output (debugging)')
 @click.option('--test', '-t', is_flag=True,
               help='Enable testing mode')
-def sensed(config, name, sensors, port, bind, verbose):
+def sensed(config, name, sensors, host, port, verbose, test):
     if config is None:
         nsensors = {}
         for s in sensors:
@@ -79,7 +79,7 @@ def sensed(config, name, sensors, port, bind, verbose):
         cfg = {
             'name': name,
             'debug': verbose,
-            'bind': bind,
+            'host': host,
             'port': port,
             'sensors': nsensors,
             'test': test
@@ -120,6 +120,8 @@ def sensed(config, name, sensors, port, bind, verbose):
         client.shutdown()
 
     chalk.blue('sensed ready')
+
+    client.run_forever()  # todo
 
 if __name__ == '__main__':
     sensed()
