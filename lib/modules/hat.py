@@ -5,8 +5,9 @@ class Hat(object):
     ''' `sensed` sensor module for the Raspberry Pi Sense HAT. This
         module returns a dictionary of all built in sensors. '''
 
-    def __init__(self):
-        self.sense = SenseHat()
+    def __init__(self, config):
+        if not config['test'] is True:
+            self.sense = SenseHat()
 
     def get_data(self):
         # Environmental sensors
@@ -39,6 +40,21 @@ class Hat(object):
                         'gyroscope_r': gyro_r,
                         'accelerometer': accel,
                         'accelerometer_raw': accel_r}}
+
+    def test(self):
+        return {'environment': {'humidity': 1,
+                                'temperature': 2,
+                                'temperature_h': 3,
+                                'temperature_p': 4,
+                                'pressure': 5},
+                'imu': {'orientation_rad': 6,
+                        'orientation_deg': 7,
+                        'compass': 8,
+                        'compass_r': 9,
+                        'gyroscope': 10,
+                        'gyroscope_r': 11,
+                        'accelerometer': 12,
+                        'accelerometer_raw': 13}}
 
 
 Sensor = Hat

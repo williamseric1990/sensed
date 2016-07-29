@@ -2,7 +2,7 @@ import datetime
 
 
 class Datetime(object):
-    def __init__(self):
+    def __init__(self, config):
         pass
 
     def get_data(self):

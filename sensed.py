@@ -125,7 +125,7 @@ def sensed(config, name, sensors, host, port, verbose, test):
                 try:
                     smod = importlib.import_module('lib.modules.{}'
                                                    .format(sensor))
-                    server.sensors[sensor] = smod.Sensor()
+                    server.sensors[sensor] = smod.Sensor(cfg)
                     chalk.green(' -> {}'.format(sensor))
                 except Exception as e:
                     chalk.red('  ! {}: {}'.format(sensor, e))
