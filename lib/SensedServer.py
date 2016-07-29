@@ -3,9 +3,9 @@ import socket
 import importlib
 import msgpack
 
-DATA_ID = '\x01\x00'
-DATA_REQ = '\x01\x01'
-DATA_ERR = '\x01\x02'
+DATA_ID = b'\x01\x00'
+DATA_REQ = b'\x01\x01'
+DATA_ERR = b'\x01\x02'
 
 
 class SensedServer(object):
