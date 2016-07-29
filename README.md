@@ -22,18 +22,18 @@ Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%
 
 First, see the `--help` output:
 
-  $ python3 sensed.py --help
-  Usage: sensed.py [OPTIONS]
+    $ python3 sensed.py --help
+    Usage: sensed.py [OPTIONS]
 
-  Options:
-    -c, --config TEXT   Configuration file for this instance.
-    -n, --name TEXT     Name of his sensed instance. Default: sensed
-    -S, --sensors TEXT  Sensor modules to load and enable.
-    -i, --host TEXT     IP or hostname to bind to. Default: 0.0.0.0
-    -p, --port INTEGER  Port to bind to. Default: 3000
-    -V, --verbose       Enable verbose output (debugging)
-    -t, --test          Enable test mode.
-    --help              Show this message and exit.
+    Options:
+      -c, --config TEXT   Configuration file for this instance.
+      -n, --name TEXT     Name of his sensed instance. Default: sensed
+      -S, --sensors TEXT  Sensor modules to load and enable.
+      -i, --host TEXT     IP or hostname to bind to. Default: 0.0.0.0
+      -p, --port INTEGER  Port to bind to. Default: 3000
+      -V, --verbose       Enable verbose output (debugging)
+      -t, --test          Enable test mode.
+      --help              Show this message and exit.
 
 Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/python/config/config.sample.json). As you'll no doubt notice, a configuration file is not required.
 
