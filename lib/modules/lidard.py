@@ -1,7 +1,7 @@
 import socket
 
-DATA_ID = '\x01\x00'
-DATA_REQ = '\x02\x00'
+DATA_ID = '\x02\x00'
+DATA_REQ = '\x02\x01'
 
 
 class Lidard(object):
@@ -52,11 +52,6 @@ class Lidard(object):
                 continue
             ret.append(p)
         return tuple(p), timestamp
-
-    def test(self):
-        return {'scan': ((1,2),(3,4)),
-                'lidard_ts': time.time(),
-                'meta': 'testmetadata'}
 
 
 Sensor = Lidard

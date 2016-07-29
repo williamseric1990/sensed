@@ -40,20 +40,5 @@ class Hat(object):
                         'accelerometer': accel,
                         'accelerometer_raw': accel_r}}
 
-    def test(self):
-        return {'environment': {'humidity': 1.0,
-                                'temperature': 2.0,
-                                'temperature_h': 2.1,
-                                'temperature_p': 2.2,
-                                'pressure': 3},
-                'imu': {'orientation_rad': 4.0,
-                        'orientation_deg': 4.1,
-                        'compass': 5.0,
-                        'compass_r': 5.1,
-                        'gyroscope': 6.0,
-                        'gyroscope_r': 6.1,
-                        'accelerometer': 7.0,
-                        'accelerometer_raw': 7.1}}
-
 
 Sensor = Hat

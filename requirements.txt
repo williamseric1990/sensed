@@ -2,3 +2,4 @@ click==6.2
 netifaces==0.10.4
 picamera==1.10
 pychalk==1.1.0
+msgpack-python==0.4.7
