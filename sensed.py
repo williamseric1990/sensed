@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import time
 import chalk
 import click
 import atexit
@@ -11,9 +12,25 @@ import socketserver
 from lib.SensedServer import SensedServer
 
 
-def _debug(verbose, f, arg):
-    if verbose:
-        f(arg)
+__version__ = '1.0'
+
+
+def _debug(msg, tag='\\\\\\/'):
+    if tag == 'INFO':
+        disp = chalk.blue
+    elif tag == 'WARN':
+        disp = chalk.yellow
+    elif tag == 'ERROR':
+        disp = chalk.red
+    elif tag == 'BANNER':
+        disp = chalk.cyan
+        tag = '\\\\\\/'
+    else:
+        disp = chalk.green
+
+    tag = '[{}]'.format(tag).rjust(7)
+    msg = '[{}] {} :: {}'.format(time.asctime(), tag, msg)
+    disp(msg)
 
 
 # Finds a config file in a number of default locations in a
@@ -69,11 +86,11 @@ def load_config(fn=None):
               help='IP or hostname to bind to. Default: 0.0.0.0')
 @click.option('--port', '-p', default=3000,
               help='Port to bind to. Default: 3000')
-@click.option('--verbose', '-V', is_flag=True,
-              help='Enable verbose output (debugging)')
+@click.option('--debug', '-d', default=3,
+              help='Set debug level. Default: 3')
 @click.option('--test', '-t', is_flag=True,
               help='Enable test mode.')
-def sensed(config, name, sensors, host, port, verbose, test):
+def sensed(config, name, sensors, host, port, debug, test):
     if config is None:
         nsensors = {}
         for s in sensors:
@@ -81,7 +98,7 @@ def sensed(config, name, sensors, host, port, verbose, test):
 
         cfg = {
             'name': name,
-            'debug': verbose,
+            'debug': 3,
             'host': host,
             'port': port,
             'sensors': nsensors,
@@ -93,7 +110,7 @@ def sensed(config, name, sensors, host, port, verbose, test):
         if cfg['debug']:
             verbose = True
 
-        _debug(verbose, chalk.green, 'loaded config')
+        _debug('Loaded config', tag='INFO')
 
         if 'sensors' not in cfg:
             _debug(verbose, chalk.yellow, 'no sensors configured, disabling')
@@ -113,12 +130,12 @@ def sensed(config, name, sensors, host, port, verbose, test):
         if 'test' not in cfg:
             cfg['test'] = False
 
-    _debug(verbose, chalk.blue, 'initializing sensed server')
+    _debug('Initializing sensed server', tag='INFO')
     server = socketserver.UDPServer((cfg['host'], cfg['port']),
                                     SensedServer)
 
     if len(cfg['sensors']) > 0:
-        chalk.green('loading:')
+        _debug('Loading modules:', tag='INFO')
         server.sensors = {}
         for sensor in cfg['sensors']:
             if cfg['sensors'][sensor]['enabled'] is True:
@@ -126,21 +143,20 @@ def sensed(config, name, sensors, host, port, verbose, test):
                     smod = importlib.import_module('lib.modules.{}'
                                                    .format(sensor))
                     server.sensors[sensor] = smod.Sensor(cfg)
-                    chalk.green(' -> {}'.format(sensor))
+                    _debug(' * {}'.format(sensor), tag='INFO')
                 except Exception as e:
-                    chalk.red('  ! {}: {}'.format(sensor, e))
+                    _debug(' ! {}: {}'.format(sensor, e), tag='ERROR')
 
-        print()
     server.config = cfg
 
     @atexit.register
     def close():
-        chalk.blue('shutting down')
+        _debug('shutting down')
         server.shutdown()
 
-    chalk.blue(':: sensed ready')
+    _debug('sensed v{} ready'.format(__version__), tag='BANNER')
     if cfg['test'] == True:
-        chalk.yellow(':: test mode is active')
+        _debug('test mode is active', tag='WARN')
 
     server.serve_forever()
 
