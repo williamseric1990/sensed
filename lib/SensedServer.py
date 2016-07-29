@@ -25,22 +25,19 @@ class SensedServer(object):
             packet = self.get_sensors(data['body'])
             header = DATA_REQ
         else:
+            # Erroneous packet header supplied
             packet = msgpack.pack({'_error': 'Invalid header'})
             header = DATA_ERR
 
         packet['timestamp'] = int(time.time())
         self.send_mp(packet, header)
 
-    def initialize(self, config):
-        self.config = config
-        self.sensors = {}
-
-        # Load all sensor modules that are enabled
-
-
-        self._initialized = True
-
     def get_sensors(self, sensors=[]):
+        '''
+        Using the configured list of sensors, queries them
+        for data. If `sensors` is supplied, only the listed
+        sensors will be queried.
+        '''
         ret = {'sensors':{}}
         for sensor in self.sensors:
             if len(sensors) > 0 and sensor in sensors:
