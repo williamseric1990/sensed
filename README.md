@@ -4,6 +4,10 @@
 
 `sensed` is a sensor network daemon that acts as a provider for sensor and node data. Uses a simple protocol based around [MessagePack](http://msgpack.org/).
 
+### What is this thing?
+
+Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%3F) on the subject.
+
 
 ### How do I install this thing?
 
