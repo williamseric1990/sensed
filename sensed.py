@@ -157,7 +157,6 @@ def sensed(config, name, sensors, host, port, debug, test, ci):
     if ci is True:
         _debug('testing successful, terminating')
         server.server_close()
-        del server
         sys.exit(0)
     else:
         @atexit.register
