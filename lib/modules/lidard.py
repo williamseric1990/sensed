@@ -32,5 +32,8 @@ class Lidard(object):
         data['meta'] = self.meta
         return data
 
+    def test(self):
+        return {}
+
 
 Sensor = Lidard
