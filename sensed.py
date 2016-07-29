@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import chalk
 import click
@@ -121,8 +122,8 @@ def sensed(config, name, sensors, host, port, verbose):
                                                    .format(sensor))
                     server.sensors[sensor] = smod.Sensor()
                     chalk.green(' -> {}'.format(sensor))
-                except:
-                    chalk.red('  ! {}'.format(sensor))
+                except Exception as e:
+                    chalk.red('  ! {}: {}'.format(sensor, e))
 
         print()
     server.config = cfg
