@@ -5,44 +5,60 @@ import msgpack
 
 DATA_ID = '\x01\x00'
 DATA_REQ = '\x01\x01'
+DATA_ERR = '\x01\x02'
 
 
 class SensedServer(object):
-    def __init__(self, config):
-        self.host = config['host']
-        self.port = config['port']
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    def setup(self):
+        if not '_initialized' in self.__dict__:
+            self.initialize()
+
+    def handle(self):
+        data = self.mp_recv()
+        if data['header'] == DATA_ID:
+            # Metadata request recieved
+            packet = {'name': self.server.config['name'],
+                      'sensors': self.server.config['sensors'].keys()}
+            header = DATA_ID
+        elif data['header'] == DATA_REQ:
+            # Sensor data request recieved
+            packet = self.get_sensors(data['body'])
+            header = DATA_REQ
+        else:
+            packet = msgpack.pack({'_error': 'Invalid header'})
+            header = DATA_ERR
+
+        packet['timestamp'] = int(time.time())
+        self.send_mp(packet, header)
+
+    def initialize(self, config):
+        self.config = config
         self.sensors = {}
 
         # Load all sensor modules that are enabled
-        for sensor in config['sensors']:
-            if config['sensors']['sensor']['enabled']:
-                smod = importlib.import_module('modules.{}'.format(sensor))
-                self.sensors[sensor] = smod.Sensor()
 
-    def get_sensor(self, sensor):
-        if sensor in self.sensors:
-            data = self.sensors[sensor].get_data()
-            data['sensed_ts'] = int(time.time())
-            return data
-        else:
-            return None
 
-    def get_sensors(self):
-        ret = {}
+        self._initialized = True
+
+    def get_sensors(self, sensors=[]):
+        ret = {'sensors':{}}
         for sensor in self.sensors:
-            data = self.sensors[sensor].get_data()
-            ret[sensor] = data
-        ret['sensed_ts'] = int(time.time())
+            if len(sensors) > 0 and sensor in sensors:
+                data = self.sensors[sensor].get_data()
+                ret['sensors'][sensor] = data
         return ret
 
-    def send(self, data):
-        mdata = msgpack.packb(data)
+    def mp_send(self, data, header):
+        '''
+        Sends data over the UDP socket in MessagePack format.
+        First sends a four byte packet representing the size of the
+        data to follow.
+        '''
+        mdata = header + msgpack.packb(data)
+        size = struct.pack('I', len(mdata))
+        self.sock.sendto(size, (self.host, self.port))
         self.sock.sendto(mdata, (self.host, self.port))
 
-    def recv(self):
-        data = self.sock.recv(1024).decode('utf-8').rstrip()
-        return {'header': data[:2], 'body': data[2:]}
-
-    def shutdown(self):
-        self.sock.close()
+    def mp_recv(self):
+        data = self.sock.recv(1024)
+        return {'header': data[:2], 'body': msgpack.unpackb(data[2:])}
