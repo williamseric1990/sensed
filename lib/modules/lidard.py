@@ -1,57 +1,36 @@
+import struct
 import socket
+import msgpack
 
-DATA_ID = '\x02\x00'
-DATA_REQ = '\x02\x01'
+DATA_ID = b'\x02\x00'
+DATA_REQ = b'\x02\x01'
+DATA_ERR = b'\x02\x02'
 
 
 class Lidard(object):
     ''' A sensor module that interfaces with `lidard`. '''
 
-    def __init__(self, host, port, meta_processor=None, data_processor=None):
-        self.host = host
-        self.port = port
-        self.meta_processor = meta_processor or self._process_metadata
-        self.data_processor = data_processor or self._process_scan
+    def __init__(self, config):
+        self.host = config['lidard']['host']
+        self.port = config['lidard']['port']
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.meta = self.get_metadata()
 
     def get_metadata(self):
-        self.sock.sendto(bytes(DATA_ID + '\n', 'utf-8'),
-                         (self.host, self.port))
-        r = self.sock.recv(1024).decode('utf-8').rstrip()
-        return self.meta_processor(r)
+        self.sock.sendto(DATA_ID, (self.host, self.port))
+        raw_meta = self.sock.recv(1024)
+        meta = msgpack.unpackb(raw_meta[2:])
+        return meta
 
     def get_data(self):
-        self.sock.sendto(bytes(DATA_REQ + '\n', 'utf-8'),
-                         (self.host, self.port))
-        r = self.sock.recv(1024).decode('utf-8').rstrip()
-        r, timestamp = self.data_processor(r)
-        return {'scan': r,
-                'lidard_ts': timestamp,
-                'meta': self.meta}
+        self.sock.sendto(DATA_REQ, (self.host, self.port))
+        raw_size = s.recv(4)
+        size = struct.unpack('I', raw_size)[0]
 
-    def _process_metadata(self, data):
-        pairs = data[:-1].split(';')
-        ret = {}
-        for p in pairs:
-            k, v = p.split(',')
-            ret[k] = v
-        return ret
-
-    def _process_scan(self, data):
-        scan, timestamp = data[:-1].split('|')
-        scan = scan.split(';')
-        ret = []
-        for p in scan:
-            p = p.split(',')
-            if len(p) < 2:
-                continue
-            try:
-                p = float(p[0]), float(p[1])
-            except:
-                continue
-            ret.append(p)
-        return tuple(p), timestamp
+        raw_data = s.recv(size)
+        data = msgpack.unpackb(raw_data[2:])
+        data['meta'] = self.meta
+        return data
 
 
 Sensor = Lidard
