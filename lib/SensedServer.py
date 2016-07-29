@@ -1,9 +1,10 @@
 import time
 import socket
 import importlib
+import socketserver
 
 
-class SenselogClient(object):
+class SensedServer(socketserver.BaseRequestHandler):
     def __init__(self, config):
         self.host = config['host']
         self.port = config['port']

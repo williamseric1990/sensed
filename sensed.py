@@ -5,7 +5,7 @@ import click
 import atexit
 import platform
 
-from lib.SenselogClient import SenselogClient
+from lib.SensedServer import SensedServer
 
 
 def _debug(verbose, f, arg):
@@ -112,7 +112,7 @@ def sensed(config, name, sensors, host, port, verbose, test):
             test = False
 
     _debug(verbose, chalk.blue, 'connecting to senselog server')
-    client = SenselogClient(cfg)
+    client = SensedServer(cfg)
 
     @atexit.register
     def close():
