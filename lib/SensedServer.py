@@ -37,7 +37,10 @@ class SensedServer(socketserver.BaseRequestHandler):
         ret = {'sensors':{}}
         for sensor in self.server.sensors:
             if len(sensors) == 0 or sensor in sensors:
-                data = self.server.sensors[sensor].get_data()
+                if self.server.config['test'] == True:
+                    data = self.server.sensors[sensor].test()
+                else:
+                    data = self.server.sensors[sensor].get_data()
                 ret['sensors'][sensor] = data
         return ret
 

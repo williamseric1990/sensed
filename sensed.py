@@ -71,7 +71,9 @@ def load_config(fn=None):
               help='Port to bind to. Default: 3000')
 @click.option('--verbose', '-V', is_flag=True,
               help='Enable verbose output (debugging)')
-def sensed(config, name, sensors, host, port, verbose):
+@click.option('--test', '-t', is_flag=True,
+              help='Enable test mode.')
+def sensed(config, name, sensors, host, port, verbose, test):
     if config is None:
         nsensors = {}
         for s in sensors:
@@ -82,7 +84,8 @@ def sensed(config, name, sensors, host, port, verbose):
             'debug': verbose,
             'host': host,
             'port': port,
-            'sensors': nsensors
+            'sensors': nsensors,
+            'test': test
         }
     else:
         cfg = load_config(fn=config)
@@ -107,6 +110,8 @@ def sensed(config, name, sensors, host, port, verbose):
             _debug(verbose, chalk.yellow,
                    'no name configured, defaulting to sensed')
             cfg['name'] = 'sensed'
+        if 'test' not in cfg:
+            cfg['test'] = False
 
     _debug(verbose, chalk.blue, 'initializing sensed server')
     server = socketserver.UDPServer((cfg['host'], cfg['port']),
@@ -134,6 +139,8 @@ def sensed(config, name, sensors, host, port, verbose):
         server.shutdown()
 
     chalk.blue(':: sensed ready')
+    if cfg['test'] == True:
+        chalk.yellow(':: test mode is active')
 
     server.serve_forever()
 
