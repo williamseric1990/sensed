@@ -90,7 +90,8 @@ def load_config(fn=None):
               help='Set debug level. Default: 3')
 @click.option('--test', '-t', is_flag=True,
               help='Enable test mode.')
-def sensed(config, name, sensors, host, port, debug, test):
+@click.option('--ci', is_flag=True, help="CI Testing.")
+def sensed(config, name, sensors, host, port, debug, test, ci):
     if config is None:
         nsensors = {}
         for s in sensors:
@@ -149,16 +150,21 @@ def sensed(config, name, sensors, host, port, debug, test):
 
     server.config = cfg
 
-    @atexit.register
-    def close():
-        _debug('shutting down')
-        server.shutdown()
-
     _debug('sensed v{} ready'.format(__version__), tag='BANNER')
     if cfg['test'] == True:
         _debug('test mode is active', tag='WARN')
 
-    server.serve_forever()
+    if ci is True:
+        _debug('testing successful, terminating')
+        server.server_close()
+        del server
+        sys.exit(0)
+    else:
+        @atexit.register
+        def close():
+            _debug('shutting down')
+            server.shutdown()
+        server.serve_forever()
 
 if __name__ == '__main__':
     sensed()
