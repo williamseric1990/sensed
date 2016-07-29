@@ -4,8 +4,10 @@ import chalk
 import click
 import atexit
 import platform
+import importlib
+import socketserver
 
-from lib import SenselogClient
+from lib.SensedServer import SensedServer
 
 
 def _debug(verbose, f, arg):
@@ -59,17 +61,16 @@ def load_config(fn=None):
 @click.option('--config', '-c', default=None,
               help='Configuration file for this instance.')
 @click.option('--name', '-n', default='sensed',
-              help='Name of his sensed instance. Should be unique on the \
-                    network. Default: sensed')
+              help='Name of his sensed instance. Default: sensed')
 @click.option('--sensors', '-S', default={},
               help='Sensor modules to load and enable.')
-@click.option('--host', '-i', default='localhost',
-              help='IP or hostname of the senselog server. Default: localhost')
+@click.option('--host', '-i', default='0.0.0.0',
+              help='IP or hostname to bind to. Default: 0.0.0.0')
 @click.option('--port', '-p', default=3000,
-              help='Port used by clients to recieve data. Default: 3000')
+              help='Port to bind to. Default: 3000')
 @click.option('--verbose', '-V', is_flag=True,
               help='Enable verbose output (debugging)')
-def sensed(config, name, sensors, port, bind, verbose):
+def sensed(config, name, sensors, host, port, verbose):
     if config is None:
         nsensors = {}
         for s in sensors:
@@ -78,14 +79,14 @@ def sensed(config, name, sensors, port, bind, verbose):
         cfg = {
             'name': name,
             'debug': verbose,
-            'bind': bind,
+            'host': host,
             'port': port,
             'sensors': nsensors
         }
     else:
         cfg = load_config(fn=config)
 
-        if config['debug']:
+        if cfg['debug']:
             verbose = True
 
         _debug(verbose, chalk.green, 'loaded config')
@@ -106,15 +107,34 @@ def sensed(config, name, sensors, port, bind, verbose):
                    'no name configured, defaulting to sensed')
             cfg['name'] = 'sensed'
 
-    _debug(verbose, chalk.blue, 'connecting to senselog server')
-    client = SenselogClient(cfg)
+    _debug(verbose, chalk.blue, 'initializing sensed server')
+    server = socketserver.UDPServer((cfg['host'], cfg['port']),
+                                    SensedServer)
+
+    if len(cfg['sensors']) > 0:
+        chalk.green('loading:')
+        server.sensors = {}
+        for sensor in cfg['sensors']:
+            if cfg['sensors'][sensor]['enabled'] is True:
+                try:
+                    smod = importlib.import_module('lib.modules.{}'
+                                                   .format(sensor))
+                    server.sensors[sensor] = smod.Sensor()
+                    chalk.green(' -> {}'.format(sensor))
+                except:
+                    chalk.red('  ! {}'.format(sensor))
+
+        print()
+    server.config = cfg
 
     @atexit.register
     def close():
         chalk.blue('shutting down')
-        client.shutdown()
+        server.shutdown()
 
-    chalk.blue('sensed ready')
+    chalk.blue(':: sensed ready')
+
+    server.serve_forever()
 
 if __name__ == '__main__':
     sensed()
