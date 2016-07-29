@@ -7,7 +7,7 @@ DATA_ID = b'\x01\x00'
 DATA_REQ = b'\x01\x01'
 DATA_ERR = b'\x01\x02'
 
-import see
+
 class SensedServer(socketserver.BaseRequestHandler):
     def handle(self):
         data, host = self.mp_recv()
