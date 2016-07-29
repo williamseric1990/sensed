@@ -7,6 +7,6 @@ python:
   - "pypy3"
 install: "pip install -r requirements.txt"
 script:
-  sensed -c config/config.sample.json --ci
+  python sensed.py -c config/config.sample.json --ci
 after_success:
   - bash <(curl -s https://codecov.io/bash)
