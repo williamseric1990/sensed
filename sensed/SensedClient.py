@@ -1,10 +1,9 @@
 import time
-import pprint
 import struct
 import socket
 import msgpack
-from Map import Map
-
+from sensed.Map import Map
+from sensed.Types import Host, HostList, MetaData, SensorData
 
 HEADERS = Map()
 HEADERS.ID = b'\x01\x00'
@@ -13,27 +12,34 @@ HEADERS.ERR = b'\x01\x02'
 
 
 class SensedClient(object):
-    def __init__(self, cfg):
-        self.hosts = cfg['hosts']
-        self.interval = cfg['interval']
-        self.pp = pprint.PrettyPrinter(indent=2, width=80)
 
-    def run_meta(self):
-        print('Meta Process')
-        for host in self.hosts:
-            print('Pinging {}...'.format(host), end=' ')
+    __version__ = '1.1.0'
+    __author__ = 'R. Cody Maden'
+
+    def __init__(self, config: Map):
+        self.hosts = config.hosts
+        self.interval = config.interval
+
+    def run_meta(self, hosts: HostList=None) -> List[MetaData]:
+        if not hosts:
+            hosts = self.hosts
+        metas = []
+        for host in hosts:
             meta = self.get_meta(host)
-            return meta
+            metas.append(meta)
+        return metas
 
-    def run_once(self):
-        for host in self.hosts:
-            print('Pinging {}...'.format(host), end=' ')
+
+    def run_once(self, hosts: HostList=None) -> List[SensorData]:
+        if not hosts:
+            hosts = self.hosts
+        datas = []
+        for host in hosts:
             data = self.get_sensors(host)
-            print('Recieved data:')
-            self.pp.pprint(data)
-            print()
+            datas.append(data)
+        return datas
 
-    def get_meta(self, host):
+    def meta(self, host: Host) -> Map:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.sendto(HEADERS.ID, host)
 
@@ -42,9 +48,9 @@ class SensedClient(object):
         raw_meta = raw_data[2:]
         meta = msgpack.unpackb(raw_meta)
 
-        return meta
+        return Map(meta)
 
-    def get_sensors(self, host):
+    def sensors(self, host: Host) -> Map:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.sendto(HEADERS.REQ, host)
 
@@ -55,4 +61,4 @@ class SensedClient(object):
         header = raw_data[:2]
         data = msgpack.unpackb(raw_data[2:])
 
-        return {'header': header, 'body': data}
+        return Map(header=header, **data})
