@@ -1,6 +1,6 @@
 {
   "senselog": {
-    "interval": 60,
+    "interval": 10,
     "hosts": [
       [ "localhost", 3000 ]
     ]
