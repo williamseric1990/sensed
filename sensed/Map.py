@@ -68,6 +68,7 @@ class ConfigMap(Map):
         else:
             self.filename = filename
 
+        config = None
         with open(self.filename) as cfg_file:
                 try:
                     config = toml.loads(cfg_file.read())
@@ -78,7 +79,7 @@ class ConfigMap(Map):
                 except:
                     pass
         if not config:
-            raise ConfigurationError(('Configuration format is unknown'
+            raise ConfigurationError(('Configuration format is unknown '
                                       'or contains an error'))
         super(Map, self).__init__(config)
 
