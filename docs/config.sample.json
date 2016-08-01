@@ -1,12 +1,12 @@
 {
-  "debug": true,
-  "test": true,
-  "name": "testnode",
-  "host": "0.0.0.0",
-  "port": 3000,
-  "sensors": {
-    "datetime": {
-      "enabled": true
-    }
+  "sensed": {
+    "test": true,
+    "name": "testnode",
+    "host": "0.0.0.0",
+    "port": 3000,
+    "sensors": [ "datetime" ]
+  },
+  "datetime": {
+    "formats": [ "all" ]
   }
 }

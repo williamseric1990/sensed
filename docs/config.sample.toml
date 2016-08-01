@@ -1,0 +1,13 @@
+[sensed]
+
+name = 'testnode'
+test = false
+host = '0.0.0.0'
+port = 3000
+sensors = [ 'datetime' ]
+
+# Settings for the datetime sensor module
+[datetime]
+
+# Available formats: unix, 12h, 24h, iso, or all
+formats = [ 'all' ]
