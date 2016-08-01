@@ -1,0 +1,11 @@
+README
+setup.cfg
+setup.py
+sensed/Map.py
+sensed/SensedClient.py
+sensed/SensedServer.py
+sensed/__init__.py
+sensed.egg-info/PKG-INFO
+sensed.egg-info/SOURCES.txt
+sensed.egg-info/dependency_links.txt
+sensed.egg-info/top_level.txt
