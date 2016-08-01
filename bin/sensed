@@ -2,7 +2,6 @@
 
 import os
 import sys
-import json
 import time
 import chalk
 import click
@@ -45,7 +44,7 @@ def _debug(msg, tag='\\\\\\/'):
               help='Port to bind to. Default: 3000')
 @click.option('--test', '-t', is_flag=True,
               help='Enable test mode.')
-@click.option('--ci', is_flag=True, help="CI Testing.")
+@click.option('--ci', is_flag=True, help='CI Testing.')
 def sensed(config, name, sensors, host, port, test, ci):
     if config is None:
         cfg = ConfigMap()
