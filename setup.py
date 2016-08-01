@@ -6,14 +6,14 @@ def read(fname):
 
 setup(
     name = 'sensed',
-    version = '1.0',
+    version = '1.1.0',
     author = 'R. Cody Maden',
     description = 'A sensor network server and client library.',
     license = 'MIT',
     keywords = 'sensor network sensed',
     url = 'http://github.com/sli/sensed',
     packages = ['sensed', 'tests'],
-    scripts = ['bin/sensed'],
+    scripts = ['bin/sensed', 'bin/senselog'],
     long_description = read('README.md'),
     classifiers = [
         'Development Status :: 4 - Beta',
