@@ -14,7 +14,7 @@ Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%
     $ sudo apt-get install git python3 python3-pip
     $ git clone http://github.com/sli/sensed.git
     $ cd sensed/
-    $ sudo pip3 -r requirements.txt
+    $ sudo pip3 install -r requirements.txt
 
 `sensed` is now ready to use.
 
@@ -35,7 +35,7 @@ First, see the `--help` output:
       -t, --test          Enable test mode.
       --help              Show this message and exit.
 
-Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/python/config/config.sample.json). As you'll no doubt notice, a configuration file is not required.
+Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/master/config/config.sample.json). As you'll no doubt notice, a configuration file is not required.
 
 If you're looking for a reference server implementation (there is no "standard" server for `sensed` &mdash; that would all but defeat part the purpose of using `sensed`), you might look into [senselog](https://github.com/sli/senselog).
 
