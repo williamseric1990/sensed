@@ -2,28 +2,33 @@ import time
 import struct
 import msgpack
 import socketserver
+from Map import Map
 
-DATA_ID = b'\x01\x00'
-DATA_REQ = b'\x01\x01'
-DATA_ERR = b'\x01\x02'
+
+HEADERS = Map()
+HEADERS.ID = b'\x01\x00'
+HEADERS.REQ = b'\x01\x01'
+HEADERS.ERR = b'\x01\x02'
 
 
 class SensedServer(socketserver.BaseRequestHandler):
     def handle(self):
         data, host = self.mp_recv()
-        if data['header'] == DATA_ID:
+        packet = Map()
+        if data.header == HEADERS.ID:
             # Metadata request recieved
-            packet = {'name': self.server.config['name'],
-                      'sensors': list(self.server.config['sensors'].keys())}
-            header = DATA_ID
-        elif data['header'] == DATA_REQ:
+            sensors = list(self.server.config['sensors'].keys())
+            packet = Map({'name': self.server.config['name'],
+                          'sensors': sensors})
+            header = HEADERS.ID
+        elif data.header == HEADERS.REQ:
             # Sensor data request recieved
             packet = self.get_sensors(data['body'])
-            header = DATA_REQ
+            header = HEADERS.REQ
         else:
             # Erroneous packet header supplied
-            packet = msgpack.pack({'_error': 'Invalid header'})
-            header = DATA_ERR
+            packet = {'_error': 'Invalid header'}
+            header = HEADERS.ERR
 
         packet['timestamp'] = int(time.time())
         self.mp_send(header, packet, host)

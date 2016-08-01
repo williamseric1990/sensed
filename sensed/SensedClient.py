@@ -3,11 +3,13 @@ import pprint
 import struct
 import socket
 import msgpack
+from Map import Map
 
 
-DATA_ID = b'\x01\x00'
-DATA_REQ = b'\x01\x01'
-DATA_ERR = b'\x01\x02'
+HEADERS = Map()
+HEADERS.ID = b'\x01\x00'
+HEADERS.REQ = b'\x01\x01'
+HEADERS.ERR = b'\x01\x02'
 
 
 class SensedClient(object):
@@ -21,15 +23,7 @@ class SensedClient(object):
         for host in self.hosts:
             print('Pinging {}...'.format(host), end=' ')
             meta = self.get_meta(host)
-            print('Metadata recieved:')
-            self.pp.pprint(meta)
-            print()
-
-    def run_forever(self):
-        print('Data Process')
-        while True:
-            self.run_once()
-            time.sleep(self.interval)
+            return meta
 
     def run_once(self):
         for host in self.hosts:
@@ -41,7 +35,7 @@ class SensedClient(object):
 
     def get_meta(self, host):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.sendto(DATA_ID, host)
+        s.sendto(HEADERS.ID, host)
 
         raw_data = s.recv(1024)
         header = raw_data[:2]
@@ -52,7 +46,7 @@ class SensedClient(object):
 
     def get_sensors(self, host):
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.sendto(DATA_REQ, host)
+        s.sendto(HEADERS.REQ, host)
 
         raw_size = s.recv(4)
         size = struct.unpack('I', raw_size)[0]
