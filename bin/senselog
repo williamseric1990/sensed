@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import time
+import chalk
+import click
+import atexit
+
+from sensed.SensedClient import SensedClient
+from sensed.Map import Map, ConfigMap
+
+
+def _debug(msg, tag='\\\\\\/'):
+    if tag == 'INFO':
+        disp = chalk.blue
+    elif tag == 'WARN':
+        disp = chalk.yellow
+    elif tag == 'ERROR':
+        disp = chalk.red
+    elif tag == 'BANNER':
+        disp = chalk.cyan
+        tag = '\\\\\\/'
+    else:
+        disp = chalk.green
+
+    tag = '[{}]'.format(tag).rjust(7)
+    msg = '[{}] {} :: {}'.format(time.asctime(), tag, msg)
+    disp(msg)
+
+
+@click.command()
+@click.option('--config', '-c', default=None,
+              help='Configuration file for this instance')
+@click.option('--hosts', '-h', default=[],
+              help='Host/port pairs to query. (host:port,host:post,...)')
+@click.option('--interval', '-i', default=60,
+              help='Request interval in seconds')
+@click.option('--ci', is_flag=True, help='CI Testing.')
+def senselog(config, hosts, interval, ci):
+    if config is None:
+        if not hosts == []:
+            hosts = [tuple(h.split(':')) for h in hosts.split(',')]
+        cfg = ConfigMap()
+        cfg.senselog = Map({'hosts': hosts, 'interval': 60})
+    else:
+        cfg = ConfigMap(filename=config)
+
+        if 'senselog' not in cfg:
+            cfg.senselog = Map({'hosts': [], 'interval': 60})
+        else:
+            cfg.senselog = Map(cfg.senselog)
+
+        if 'hosts' not in cfg.senselog:
+            cfg.senselog.hosts = []
+
+        if 'interval' not in cfg.senselog:
+            cfg.senselog.interval = 60
+
+    _debug('Loaded config', tag='INFO')
+
+    _debug('Initializing sensed client', tag='INFO')
+    client = SensedClient(cfg)
+
+    @atexit.register
+    def close():
+        _debug('shutting down')
+
+    _debug('senselog v{} ready'.format(SensedClient.__version__), tag='BANNER')
+
+    if ci is True:
+        _debug('testing successful, terminating')
+        sys.exit(0)
+    else:
+        @atexit.register
+        def close():
+            _debug('shutting down')
+
+        print(client.get_all_meta())
+        while True:
+            print(client.get_all_sensors())
+            time.sleep(cfg.senselog.interval)
+
+if __name__ == '__main__':
+    senselog()
