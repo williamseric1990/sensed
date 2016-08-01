@@ -6,10 +6,10 @@ class Hat(object):
         module returns a dictionary of all built in sensors. '''
 
     def __init__(self, config):
-        if not config['test'] is True:
+        if not config.test. is True:
             self.sense = SenseHat()
 
-    def get_data(self):
+    def get_data(self) -> dict:
         # Environmental sensors
         humid = self.sense.humidity
         temp = self.sense.temperature
@@ -41,7 +41,7 @@ class Hat(object):
                         'accelerometer': accel,
                         'accelerometer_raw': accel_r}}
 
-    def test(self):
+    def test(self) -> dict:
         return {'environment': {'humidity': 1,
                                 'temperature': 2,
                                 'temperature_h': 3,

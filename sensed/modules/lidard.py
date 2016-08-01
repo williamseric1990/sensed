@@ -11,19 +11,18 @@ class Lidard(object):
     ''' A sensor module that interfaces with `lidard`. '''
 
     def __init__(self, config):
-        self.host = config['lidard']['host']
-        self.port = config['lidard']['port']
+        self.config = config['sensed-modules-lidard']
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.meta = self.get_metadata()
 
-    def get_metadata(self):
-        self.sock.sendto(DATA_ID, (self.host, self.port))
+    def get_metadata(self) -> dict:
+        self.sock.sendto(DATA_ID, (self.config.host, self.config.port))
         raw_meta = self.sock.recv(1024)
         meta = msgpack.unpackb(raw_meta[2:])
         return meta
 
-    def get_data(self):
-        self.sock.sendto(DATA_REQ, (self.host, self.port))
+    def get_data(self) -> dict:
+        self.sock.sendto(DATA_REQ, (self.config.host, self.config.port))
         raw_size = s.recv(4)
         size = struct.unpack('I', raw_size)[0]
 
@@ -32,7 +31,7 @@ class Lidard(object):
         data['meta'] = self.meta
         return data
 
-    def test(self):
+    def test(self) -> dict:
         return {}
 
 

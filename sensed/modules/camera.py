@@ -7,17 +7,18 @@ class Camera(object):
         module returns a JPEG image. '''
 
     def __init__(self, config):
-        if not config['test'] is True
+        if not config.test is True
             self.camera = picamera.PiCamera()
 
-    def get_data(self):
+    def get_data(self) -> dict:
         self.camera.capture('img.jpg')
         with open('img.jpg', 'rb') as fp:
-            return {'camera': fp.read()}
+            img  = fp.read()
         os.remove('img.jpg')
+        return {'camera': img}
 
-    def test(self):
-        return {'camera':''}
+    def test(self) -> dict:
+        return {'camera': ''}
 
 
 Sensor = Camera
