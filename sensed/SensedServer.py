@@ -6,10 +6,10 @@ from sensed.Map import Map
 from sensed.Types import Host, SensorList
 
 
-HEADERS = Map()
-HEADERS.ID = b'\x01\x00'
-HEADERS.REQ = b'\x01\x01'
-HEADERS.ERR = b'\x01\x02'
+headers = Map()
+headers.ID = b'\x01\x00'
+headers.REQ = b'\x01\x01'
+headers.ERR = b'\x01\x02'
 
 
 class SensedServer(socketserver.BaseRequestHandler):
@@ -20,20 +20,20 @@ class SensedServer(socketserver.BaseRequestHandler):
     def handle(self):
         data, host = self.mp_recv()
         packet = Map()
-        if data.header == HEADERS.ID:
+        if data.header == headers.ID:
             # Metadata request recieved
-            sensors = list(self.server.config['sensors'].keys())
-            packet = Map({'name': self.server.config['name'],
+            sensors = self.server.config.sensed.sensors
+            packet = Map({'name': self.server.config.sensed.name,
                           'sensors': sensors})
-            header = HEADERS.ID
-        elif data.header == HEADERS.REQ:
+            header = headers.ID
+        elif data.header == headers.REQ:
             # Sensor data request recieved
             packet = self.get_sensors(data['body'])
-            header = HEADERS.REQ
+            header = headers.REQ
         else:
             # Erroneous packet header supplied
             packet = {'_error': 'Invalid header'}
-            header = HEADERS.ERR
+            header = headers.ERR
 
         packet['timestamp'] = int(time.time())
         self.mp_send(header, packet, host)
@@ -47,7 +47,7 @@ class SensedServer(socketserver.BaseRequestHandler):
         ret = {'sensors':{}}
         for sensor in self.server.sensors:
             if len(sensors) == 0 or sensor in sensors:
-                if self.server.config['test'] == True:
+                if self.server.config.sensed.test == True:
                     data = self.server.sensors[sensor].test()
                 else:
                     data = self.server.sensors[sensor].get_data()
@@ -61,7 +61,7 @@ class SensedServer(socketserver.BaseRequestHandler):
         data to follow.
         '''
         mdata = header + msgpack.packb(data)
-        if header == DATA_REQ:
+        if header == headers.REQ:
             size = struct.pack('I', len(mdata))
             self.request[1].sendto(size, host)
         self.request[1].sendto(mdata, host)
@@ -73,5 +73,7 @@ class SensedServer(socketserver.BaseRequestHandler):
         data = packet[2:]
         if len(data) > 0:
             data = msgpack.unpackb(data)
+        else:
+            data = {'body': []}
 
         return Map(data, header=header), host
