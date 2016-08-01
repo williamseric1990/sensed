@@ -16,6 +16,10 @@ Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%
     $ cd sensed/
     $ sudo pip3 install -r requirements.txt
 
+Or you can do this in one line (review the shell script first!):
+
+    $ curl -L https://raw.githubusercontent.com/sli/sensed/master/setup.sh | sudo sh
+
 `sensed` is now ready to use.
 
 ### How do I use this thing?
