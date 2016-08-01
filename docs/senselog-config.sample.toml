@@ -1,6 +1,6 @@
 [senselog]
 
-interval = 10
+interval = 10 # Number of seconds between data requests
 hosts = [
 	[ 'localhost', '3000' ] # TOML arrays must be homogenous, so port
 ]                           # numbers must be strings.
