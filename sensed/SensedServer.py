@@ -73,4 +73,5 @@ class SensedServer(socketserver.BaseRequestHandler):
         data = packet[2:]
         if len(data) > 0:
             data = msgpack.unpackb(data)
-        return Map(header=header, **data), host
+
+        return Map(data, header=header), host

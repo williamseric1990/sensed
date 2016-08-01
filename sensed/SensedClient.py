@@ -4,6 +4,7 @@ import socket
 import msgpack
 from sensed.Map import Map
 from sensed.Types import Host, HostList, MetaData, SensorData
+from typing import List
 
 HEADERS = Map()
 HEADERS.ID = b'\x01\x00'
@@ -17,10 +18,12 @@ class SensedClient(object):
     __author__ = 'R. Cody Maden'
 
     def __init__(self, config: Map):
-        self.hosts = config.hosts
-        self.interval = config.interval
+        self.hosts = config.senselog.hosts
+        for h in range(len(self.hosts)):
+            self.hosts[h] = tuple([self.hosts[h][0], int(self.hosts[h][1])])
+        self.interval = config.senselog.interval
 
-    def run_meta(self, hosts: HostList=None) -> List[MetaData]:
+    def get_all_meta(self, hosts: HostList=None) -> List[MetaData]:
         if not hosts:
             hosts = self.hosts
         metas = []
@@ -29,8 +32,7 @@ class SensedClient(object):
             metas.append(meta)
         return metas
 
-
-    def run_once(self, hosts: HostList=None) -> List[SensorData]:
+    def get_all_sensors(self, hosts: HostList=None) -> List[SensorData]:
         if not hosts:
             hosts = self.hosts
         datas = []
@@ -39,7 +41,7 @@ class SensedClient(object):
             datas.append(data)
         return datas
 
-    def meta(self, host: Host) -> Map:
+    def get_meta(self, host: Host) -> Map:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.sendto(HEADERS.ID, host)
 
@@ -50,7 +52,7 @@ class SensedClient(object):
 
         return Map(meta)
 
-    def sensors(self, host: Host) -> Map:
+    def get_sensors(self, host: Host) -> Map:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.sendto(HEADERS.REQ, host)
 
@@ -61,4 +63,4 @@ class SensedClient(object):
         header = raw_data[:2]
         data = msgpack.unpackb(raw_data[2:])
 
-        return Map(header=header, **data})
+        return Map(data, header=header)
