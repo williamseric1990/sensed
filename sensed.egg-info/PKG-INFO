@@ -1,12 +1,12 @@
 Metadata-Version: 1.1
 Name: sensed
-Version: 1.0.3
+Version: 1.0.4
 Summary: A sensor network server and client library.
 Home-page: http://github.com/sli/sensed
 Author: R. Cody Maden
 Author-email: signedlongint@gmail.com
 License: MIT
-Download-URL: https://github.com/sli/sensed/releases/tag/v1.0.3
+Download-URL: https://github.com/sli/sensed/releases/tag/v1.0.4
 Description: ``sensed`` is a sensor network daemon that acts as a provider for sensor and node data. Uses a simple protocol based around `MessagePack <http://msgpack.org/>`_.
         
         Please see the `the wiki article <https://github.com/sli/sensed/wiki/What-is-sensed%3F>`_ for more information.
