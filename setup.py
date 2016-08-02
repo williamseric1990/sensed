@@ -19,7 +19,7 @@ setup(
     keywords = 'sensor network sensed',
     url = 'http://github.com/sli/sensed',
     download_url = 'https://github.com/sli/sensed/releases/tag/v1.0.3',
-    packages = ['sensed', 'tests'],
+    packages = ['sensed',],
     scripts = ['bin/sensed', 'bin/senselog'],
     long_description = long_description,
     classifiers = [
