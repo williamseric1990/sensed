@@ -14,7 +14,7 @@ headers.ERR = b'\x01\x02'
 
 class SensedServer(socketserver.BaseRequestHandler):
 
-    __version__ = '1.0.1'
+    __version__ = '0.1.0'
     __author__ = 'R. Cody Maden'
 
     def handle(self):
