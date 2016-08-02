@@ -14,7 +14,7 @@ HEADERS.ERR = b'\x01\x02'
 
 class SensedClient(object):
 
-    __version__ = '1.1.0'
+    __version__ = '1.0'
     __author__ = 'R. Cody Maden'
 
     def __init__(self, config: Map):
