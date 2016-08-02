@@ -4,9 +4,14 @@ from setuptools import setup
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
+try:
+    long_description = read('docs/README.rst')
+except:
+    long_description = 'A sensor network server and client library.'
+
 setup(
     name = 'sensed',
-    version = '1.0.2',
+    version = '1.0',
     author = 'R. Cody Maden',
     author_email = 'signedlongint@gmail.com',
     description = 'A sensor network server and client library.',
