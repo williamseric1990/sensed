@@ -8,7 +8,9 @@ How do I install this thing?::
 
     $ sudo pip3 install sensed
 
-### How do I use this thing?
+########################
+How do I use this thing?
+########################
 
 First, see the `--help` output: ::
 
