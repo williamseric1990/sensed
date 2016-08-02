@@ -13,7 +13,7 @@ setup(
     license = 'MIT',
     keywords = 'sensor network sensed',
     url = 'http://github.com/sli/sensed',
-    download_url = 'https://github.com/sli/sensed/releases/tag/v1.0.2',
+    download_url = 'https://github.com/sli/sensed/releases/tag/v1.0',
     packages = ['sensed', 'tests'],
     scripts = ['bin/sensed', 'bin/senselog'],
     long_description = read('docs/README.rst'),
