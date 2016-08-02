@@ -21,7 +21,7 @@ setup(
     download_url = 'https://github.com/sli/sensed/releases/tag/v1.0',
     packages = ['sensed', 'tests'],
     scripts = ['bin/sensed', 'bin/senselog'],
-    long_description = read('docs/README.rst'),
+    long_description = long_description,
     classifiers = [
         'Development Status :: 4 - Beta',
         'Environment :: Console',
