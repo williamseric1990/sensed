@@ -1,33 +1,28 @@
 Metadata-Version: 1.1
 Name: sensed
-Version: 1.0.1
+Version: 1.0.2
 Summary: A sensor network server and client library.
 Home-page: http://github.com/sli/sensed
 Author: R. Cody Maden
 Author-email: signedlongint@gmail.com
 License: MIT
-Download-URL: https://github.com/sli/sensed/releases/tag/v1.0.1
-Description: ![sensed](https://raw.githubusercontent.com/sli/sensed/gh-pages/logo.png)
+Download-URL: https://github.com/sli/sensed/releases/tag/v1.0.2
+Description: ``sensed`` is a sensor network daemon that acts as a provider for sensor and node data. Uses a simple protocol based around `MessagePack <http://msgpack.org/>`_.
         
-        [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/) [![Build Status](https://travis-ci.org/sli/sensed.svg?branch=master)](https://travis-ci.org/sli/sensed) [![codecov](https://codecov.io/gh/sli/sensed/branch/master/graph/badge.svg)](https://codecov.io/gh/sli/sensed)
+        Please see the `the wiki article <https://github.com/sli/sensed/wiki/What-is-sensed%3F>`_ for more information.
         
-        `sensed` is a sensor network daemon that acts as a provider for sensor and node data. Uses a simple protocol based around [MessagePack](http://msgpack.org/).
-        
-        ### What is this thing?
-        
-        Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%3F) on the subject.
-        
-        
-        ### How do I install this thing?
+        ==============================
+        How do I install this thing?::
+        ==============================
         
             $ sudo pip3 install sensed
         
         ### How do I use this thing?
         
-        First, see the `--help` output:
+        First, see the `--help` output: ::
         
-            $ python3 sensed.py --help
-            Usage: sensed.py [OPTIONS]
+            $ sensed --help
+            Usage: sensed [OPTIONS]
         
             Options:
               -c, --config TEXT   Configuration file for this instance.
@@ -39,18 +34,21 @@ Description: ![sensed](https://raw.githubusercontent.com/sli/sensed/gh-pages/log
               -t, --test          Enable test mode.
               --help              Show this message and exit.
         
-        Next, you'll probably want to take a look at the [example config file](https://github.com/sli/sensed/blob/python-module/docs/config.sample.json). As you'll no doubt notice, a configuration file is not required.
+        Next, you'll probably want to take a look at the `example config file <https://github.com/sli/sensed/blob/python-module/docs/sensed-config.sample.toml>`_ (or `in json <https://github.com/sli/sensed/blob/python-module/docs/sensed-config.sample.json>`_, if you prefer. As you'll no doubt notice, a configuration file is not required.
         
         The client library is included in this version of `sensed`.
         
-        ### Testing mode?
+        =============
+        Testing mode?
+        =============
         
         Testing mode simply tells `sensed` to send preconfigured test data from the sensor modules rather than query real sensors. Perhaps surprisingly, this allows you to test your sensor network infrastructure and your `senselog` implementation before deployment.
         
-        ### License
+        =======
+        License
+        =======
         
         Distributed under the MIT License (MIT). See `LICENSE` for details.
-        
 Keywords: sensor network sensed
 Platform: UNKNOWN
 Classifier: Development Status :: 4 - Beta
