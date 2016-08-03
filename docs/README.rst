@@ -3,8 +3,9 @@
 Please see the `the wiki article <https://github.com/sli/sensed/wiki/What-is-sensed%3F>`_ for more information.
 
 ==============================
-How do I install this thing?::
+How do I install this thing?
 ==============================
+::
 
     $ sudo pip3 install sensed
 
