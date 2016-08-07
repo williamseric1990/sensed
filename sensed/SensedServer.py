@@ -28,6 +28,8 @@ class SensedServer(socketserver.BaseRequestHandler):
             header = headers.ID
         elif data.header == headers.REQ:
             # Sensor data request recieved
+            if not data['body']:
+                data['body'] = []  # Discard erroneous data (TODO: send error)
             packet = self.get_sensors(data['body'])
             header = headers.REQ
         else:
@@ -72,7 +74,11 @@ class SensedServer(socketserver.BaseRequestHandler):
         header = packet[:2]
         data = packet[2:]
         if len(data) > 0:
-            data = msgpack.unpackb(data)
+            # Sometimes, msgpack implementations may put a nonbreaking
+            # space at the end, so make sure to remove it before continuing.
+            if data[-1] == 160:
+                data = data[:-1]
+            data = {'body': msgpack.unpackb(data)}
         else:
             data = {'body': []}
 
