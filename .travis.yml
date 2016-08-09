@@ -1,15 +1,13 @@
 language: python
 python:
-  - "3.4"
   - "3.5"
-  - "pypy3"
 install:
   - pip install -r requirements.txt
   - pip install -e .
   - pip install codecov
 script:
-  - python bin/sensed -c config/config.sample.json --ci
-  - coverage run bin/sensed -c config/config.sample.json --ci
+  - python bin/sensed -c docs/sensed-config.sample.toml --ci
+  - coverage run bin/sensed -c docs/sensed-config.sample.toml --ci
 after_success:
   - codecov
   - bash <(curl -s https://codecov.io/bash)
