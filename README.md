@@ -8,6 +8,9 @@
 
 Please the [the wiki article](https://github.com/sli/sensed/wiki/What-is-sensed%3F) on the subject.
 
+### Requirements
+
+As `sensed` makes use of the typing module, Python 3.5 or newer is required. Beyond that, all dependencies are in the included `requirements.txt` file.
 
 ### How do I install this thing?
 
