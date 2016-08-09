@@ -5,6 +5,7 @@ python:
   - "pypy3"
 install:
   - pip install -r requirements.txt
+  - pip install -e .
   - pip install codecov
 script:
   - python bin/sensed -c config/config.sample.json --ci
