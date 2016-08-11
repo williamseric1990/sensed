@@ -19,7 +19,7 @@ class Hat(object):
 
         # IMU (inertial measurement unit) sensors
         orient_r = self.sense.orientation_radians
-        orient_d = self.sense.orientation_degrees
+        orient_d = self.sense.orientation
         compass = self.sense.compass
         compass_r = self.sense.compass_raw
         gyro = self.sense.gyroscope
